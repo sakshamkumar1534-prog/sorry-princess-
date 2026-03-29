@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>madam ji sorry na  🥺💕</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #e1bee7 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: #ff69b4;
+            animation: float 6s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        .main-container {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        .sorry-card, .game-container, .final-card {
+            background: linear-gradient(145deg, #fff0f5, #ffe4e6);
+            border-radius: 25px;
+            padding: 40px 30px;
+            box-shadow: 0 25px 50px rgba(255, 182, 193, 0.5);
+            border: 4px solid #ffb6c1;
+            max-width: 500px;
+            margin: 20px auto;
+            transform: scale(0);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+        }
+
+        .sorry-card.active, .game-container.active, .final-card.active {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .sorry-card h1 {
+            color: #ff1493;
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-shadow: 0 3px 6px rgba(255, 20, 147, 0.3);
+        }
+
+        .sorry-text, .question-text, .message-text {
+            color: #ff69b4;
+            font-size: 22px;
+            line-height: 1.6;
+            margin-bottom: 35px;
+            font-weight: 400;
+        }
+
+        .playful-btn {
+            background: linear-gradient(145deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 12px 30px rgba(255, 105, 180, 0.5);
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .playful-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 105, 180, 0.7);
+        }
+
+        .yes-no-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 10;
+        }
+
+        .yes-btn, .no-btn {
+            padding: 16px 35px;
+            border: none;
+            border-radius: 35px;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            z-index: 20;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .yes-btn {
+            background: linear-gradient(145deg, #ff69b4, #ff1493);
+            color: white;
+        }
+
+        .no-btn {
+            background: linear-gradient(145deg, #e0bbff, #c3a6ff);
+            color: #6a0dad;
+        }
+
+        .yes-btn:hover, .no-btn:hover:not(.escaping) {
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        /* PERFECT CORNER MOVEMENT FOR NO BUTTON */
+        .no-btn.escaping {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            z-index: 10000 !important;
+            animation: perfectFourCorners 4s infinite;
+            pointer-events: auto;
+            box-shadow: 0 20px 50px rgba(224, 187, 255, 0.9);
+            font-size: 18px;
+            transform: none !important;
+        }
+
+        @keyframes perfectFourCorners {
+            0%, 24% {
+                top: 5vh !important;
+                left: 5vw !important;
+            }
+            25%, 49% {
+                top: 5vh !important;
+                right: 5vw !important;
+                left: auto !important;
+            }
+            50%, 74% {
+                bottom: 5vh !important;
+                left: 5vw !important;
+                top: auto !important;
+            }
+            75%, 100% {
+                bottom: 5vh !important;
+                right: 5vw !important;
+                left: auto !important;
+                top: auto !important;
+            }
+        }
+
+        .popup-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 2000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .popup-message.active {
+            display: flex;
+        }
+
+        .popup-text {
+            font-size: 32px;
+            color: #ff1493;
+            font-weight: 700;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 0 30px;
+            line-height: 1.4;
+            animation: bounceCelebrate 0.6s ease infinite alternate;
+        }
+
+        @keyframes bounceCelebrate {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        .sparkles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(45deg, #ffd700, #ff69b4);
+            border-radius: 50%;
+            animation: sparkleAnim 2s infinite;
+        }
+
+        @keyframes sparkleAnim {
+            0% { transform: scale(0) rotate(0deg); opacity: 1; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+            100% { transform: scale(0) rotate(360deg); opacity: 0; }
+        }
+
+        @media (max-width: 480px) {
+            .sorry-card, .game-container, .final-card {
+                margin: 20px;
+                padding: 30px 20px;
+                max-width: 90%;
+            }
+            
+            .question-text, .message-text, .popup-text {
+                font-size: 20px;
+            }
+            
+            .no-btn.escaping {
+                font-size: 16px !important;
+                padding: 14px 28px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    <div class="sparkles" id="sparkles"></div>
+    
+    <div class="main-container">
+        <!-- Front Page Card -->
+        <div class="sorry-card" id="sorryCard">
+            <h1>🥺💕 Madam ji  💕🥺</h1>
+            <div class="sorry-text">
+                i am sorry na princesss plzzzzzzz maaf krdo apne kuchu puchu ko 😅<br><br>
+                kabtak ase gussa rahoge🙁
+            </div>
+            <button class="playful-btn" onclick="startGame()">Click here penguin 🐧💖</button>
+        </div>
+
+        <!-- Game Container -->
+        <div class="game-container" id="gameContainer" style="display: none;">
+            <div class="question-text" id="questionText"></div>
+            <div class="yes-no-buttons">
+                <button class="yes-btn" id="yesBtn" onclick="handleYes()">Yes 🥰💕</button>
+                <button class="no-btn" id="noBtn" onclick="handleNo()">No 🙄</button>
+            </div>
+        </div>
+
+        <!-- Final Question Cards -->
+        <div class="final-card" id="finalCard1" style="display: none;">
+            <div class="question-text" id="finalQuestionText1"></div>
+            <div class="yes-no-buttons">
+                <button class="yes-btn" onclick="handleFinalYes1()">Yes 😍</button>
+                <button class="no-btn" id="finalNoBtn1" onclick="handleFinalNo1()">No 😣</button>
+            </div>
+        </div>
+
+        <div class="final-card" id="finalCard2" style="display: none;">
+            <div class="question-text" id="finalQuestionText2"></div>
+            <div class="yes-no-buttons">
+                <button class="yes-btn" onclick="handleFinalYes2()">Yes 🥰</button>
+                <button class="no-btn" id="finalNoBtn2" onclick="handleFinalNo2()">No 🙄</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup Messages -->
+    <div class="popup-message" id="popup1">
+        <div class="popup-text" id="popupText1"></div>
+    </div>
+
+    <div class="popup-message" id="popup2">
+        <div class="popup-text" id="popupText2"></div>
+    </div>
+
+    <script>
+        let currentQuestion = 0;
+        let currentStage = 'game';
+
+        const questions = [
+            "plzzzz man jayo na kitna gussa rahoge 🥺💕",
+            "firse socho ek bar 🙄😅",
+            "plzzzzzzzzzzzzzzzzzzzzzzz na princesss maaf krdo na apne baby ko 😢plzzzzzz or kitna kilsayoge apne bache ko😣"
+        ];
+
+        const finalQuestions = {
+            q1: "sach m maaf krdia na aapne🙄😶??",
+            q2: "i yadh you my honeypieeeee 🥺🥺🥺!!!!! plz krdo na maaf es bhoot ko !!!"
+        };
+
+        const messages = {
+            celebrate: "yahhhhhhhhhh!!!! coco ne maaf krdiya 😁😆👻😀😀😀💗",
+            final: "okieeeeeeeee!!! ab aap kab tak hi gussa rhte apne bache se 😁😁😅😅😅"
+        };
+
+        function hideAll() {
+            document.querySelectorAll('.sorry-card, .game-container, .final-card').forEach(card => {
+                card.style.display = 'none';
+                card.classList.remove('active');
+            });
+            document.querySelectorAll('.popup-message').forEach(popup => {
+                popup.classList.remove('active');
+            });
+        }
+
+        function startGame() {
+            hideAll();
+            document.getElementById('gameContainer').style.display = 'block';
+            setTimeout(() => document.getElementById('gameContainer').classList.add('active'), 100);
+            showQuestion(0);
+        }
+
+        function showQuestion(index) {
+            currentQuestion = index;
+            document.getElementById('questionText').textContent = questions[index];
+            resetButton('noBtn');
+        }
+
+        function showFinalQuestion(cardId, text, noBtnId) {
+            hideAll();
+            const card = document.getElementById(cardId);
+            card.style.display = 'block';
+            document.getElementById(cardId === 'finalCard1' ? 'finalQuestionText1' : 'finalQuestionText2').textContent = text;
+            setTimeout(() => card.classList.add('active'), 100);
+            resetButton(noBtnId);
+        }
+
+        function resetButton(btnId) {
+            const btn = document.getElementById(btnId);
+            btn.classList.remove('escaping');
+            btn.style.cssText = `
+                position: relative !important;
+                z-index: 20 !important;
+                top: auto !important;
+                left: auto !important;
+                right: auto !important;
+                bottom: auto !important;
+            `;
+            if (btnId === 'noBtn' || btnId === 'finalNoBtn1') btn.innerHTML = 'No 🙄';
+            else if (btnId === 'finalNoBtn2') btn.innerHTML = 'No 😣';
+        }
+
+        function makeButtonEscape(btn) {
+            btn.classList.add('escaping');
+            btn.innerHTML = "Nooo! 😭 Click Yes plzzz!";
+        }
+
+        function handleYes() {
+            if (currentQuestion === 2) {
+                showCelebrationMessage();
+            } else {
+                showQuestion(currentQuestion + 1);
+            }
+        }
+
+        function handleNo() {
+            if (currentQuestion === 2) {
+                makeButtonEscape(document.getElementById('noBtn'));
+            } else {
+                showQuestion(currentQuestion + 1);
+            }
+        }
+
+        function showCelebrationMessage() {
+            document.getElementById('popupText1').textContent = messages.celebrate;
+            document.getElementById('popup1').classList.add('active');
+            createSparkles();
+            
+            setTimeout(() => {
+                document.getElementById('popup1').classList.remove('active');
+                showFinalQuestion('finalCard1', finalQuestions.q1, 'finalNoBtn1');
+            }, 4000);
+        }
+
+        function handleFinalYes1() {
+            showFinalMessage();
+        }
+
+        function handleFinalNo1() {
+            showFinalQuestion('finalCard2', finalQuestions.q2, 'finalNoBtn2');
+        }
+
+        function handleFinalYes2() {
+            showFinalMessage();
+        }
+
+        function handleFinalNo2() {
+            makeButtonEscape(document.getElementById('finalNoBtn2'));
+        }
+
+        function showFinalMessage() {
+            document.getElementById('popupText2').textContent = messages.final;
+            document.getElementById('popup2').classList.add('active');
+            createSparkles();
+        }
+
+        // Hearts & Sparkles
+        function createFloatingHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            const hearts = ['💕', '💖', '💗', '💓', '💞', '🥰', '😍', '🐧'];
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                heartsContainer.appendChild(heart);
+                setTimeout(() => heart.remove(), 8000);
+            }, 400);
+        }
+
+        function createSparkles() {
+            const sparklesContainer = document.getElementById('sparkles');
+            for (let i = 0; i < 60; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.style.left = Math.random() * 100 + '%';
+                    sparkle.style.top = Math.random() * 100 + '%';
+                    sparkle.style.animationDelay = Math.random() * 2 + 's';
+                    sparklesContainer.appendChild(sparkle);
+                    setTimeout(() => sparkle.remove(), 2500);
+                }, i * 80);
+            }
+        }
+
+        // Initialize
+        window.onload = function() {
+            setTimeout(() => {
+                document.getElementById('sorryCard').classList.add('active');
+                createFloatingHearts();
+            }, 800);
+        };
+    </script>
+<audio id="bgMusic" loop>
+    <source src="Teri Aankhon Mein(KoshalWorld.Com).mp3" type="audio/mpeg">
+</audio>    
+</body>
+</html>
